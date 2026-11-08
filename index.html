@@ -1,0 +1,129 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#101936">
+  <title>Level Shift</title>
+  <link rel="stylesheet" href="style.css">
+  <script type="module" src="app.js"></script>
+</head>
+<body>
+  <div class="app-shell">
+    <header class="topbar">
+      <a class="wordmark" href="./" aria-label="Level Shift home"><span class="mark" aria-hidden="true"></span><span>LEVEL SHIFT</span></a>
+      <span class="version"><i></i> GD 2.209+</span>
+    </header>
+
+    <nav class="tabs" role="tablist" aria-label="Level tools">
+      <button class="tab is-active" id="tab-translate" role="tab" aria-selected="true" aria-controls="panel-translate" data-tab="translate"><span>01</span> Translate</button>
+      <button class="tab" id="tab-levels" role="tab" aria-selected="false" aria-controls="panel-levels" data-tab="levels"><span>02</span> Levels</button>
+      <button class="tab" id="tab-generate" role="tab" aria-selected="false" aria-controls="panel-generate" data-tab="generate"><span>03</span> AI Generate</button>
+      <button class="tab" id="tab-server" role="tab" aria-selected="false" aria-controls="panel-server" data-tab="server"><span>04</span> GD Server</button>
+    </nav>
+
+    <main>
+      <section class="panel is-active" id="panel-translate" role="tabpanel" aria-labelledby="tab-translate">
+        <div class="panel-heading">
+          <div class="eyebrow"><span class="eyebrow-dot"></span> FORMAT CONVERTER</div>
+          <h1>Move a level<br><em>between worlds.</em></h1>
+          <p class="lede">Convert a level file without sending it anywhere.</p>
+        </div>
+
+        <div class="direction" role="group" aria-label="Conversion direction">
+          <button class="direction-option is-active" data-source="gmd" aria-pressed="true"><code>.gmd</code><span>to</span><code>.gdlvl</code></button>
+          <span class="direction-divider" aria-hidden="true"></span>
+          <button class="direction-option" data-source="gdlvl" aria-pressed="false"><code>.gdlvl</code><span>to</span><code>.gmd</code></button>
+        </div>
+
+        <label class="dropzone" id="translate-drop" for="translate-input" tabindex="0">
+          <input id="translate-input" type="file" accept=".gmd,application/octet-stream">
+          <span class="upload-icon" aria-hidden="true"><svg viewBox="0 0 32 32"><path d="M16 21V5m0 0-6 6m6-6 6 6M6 20v6h20v-6"/></svg></span>
+          <span class="drop-title" id="translate-title">Drop a <strong>.gmd</strong> level here</span>
+          <span class="drop-subtitle">or <span class="browse-link">browse files</span></span>
+        </label>
+        <div class="result" id="translate-result" aria-live="polite" hidden></div>
+      </section>
+
+      <section class="panel" id="panel-levels" role="tabpanel" aria-labelledby="tab-levels" hidden>
+        <div class="panel-heading compact-heading">
+          <div class="eyebrow"><span class="eyebrow-dot"></span> YOUR LIBRARY</div>
+          <h2>Keep your levels close.</h2>
+          <p class="lede">Add files to see their details and export either format.</p>
+        </div>
+        <label class="library-drop" id="library-drop" for="library-input" tabindex="0">
+          <input id="library-input" type="file" accept=".gmd,.gdlvl,application/octet-stream" multiple>
+          <span class="library-plus" aria-hidden="true">+</span>
+          <span><strong>Add level files</strong><small> .gmd or .gdlvl · multiple files supported</small></span>
+          <span class="browse-link">Browse</span>
+        </label>
+        <div class="library-status" id="library-status" aria-live="polite"></div>
+        <div class="library-list" id="library-list"></div>
+      </section>
+
+      <section class="panel" id="panel-server" role="tabpanel" aria-labelledby="tab-server" hidden>
+        <div class="panel-heading compact-heading">
+          <div class="eyebrow"><span class="eyebrow-dot"></span> GEOMETRY DASH SERVER</div>
+          <h2>Find a level.</h2>
+          <p class="lede">Search the public level database and export either format.</p>
+        </div>
+        <form id="server-search" class="server-search">
+          <label class="prompt-label" for="server-url">CUSTOM SERVER URL <span class="optional-note">OPTIONAL · BLANK USES GD</span></label>
+          <input class="server-url-input" id="server-url" type="url" maxlength="300" placeholder="https://server.example">
+          <label class="prompt-label server-query-label" for="server-query">LEVEL NAME</label>
+          <div class="server-search-row"><input id="server-query" type="search" maxlength="80" placeholder="Search by level name" required><button class="primary-button" id="server-search-button" type="submit">Search</button></div>
+        </form>
+        <div class="server-status" id="server-status" aria-live="polite"></div>
+        <div class="server-results" id="server-results"></div>
+      </section>
+
+      <section class="panel" id="panel-generate" role="tabpanel" aria-labelledby="tab-generate" hidden>
+        <div class="panel-heading compact-heading">
+          <div class="eyebrow"><span class="eyebrow-dot"></span> AI LEVEL STUDIO</div>
+          <h2>Dream up a route.</h2>
+          <p class="lede">Describe the vibe. AI builds a full route with layered decoration.</p>
+        </div>
+        <form id="generate-form" class="generate-form">
+          <fieldset class="ai-profile-set">
+            <legend class="prompt-label">AI PROFILES</legend>
+            <div class="ai-profile-grid">
+              <label class="ai-profile">
+                <input type="radio" name="ai-profile" value="builder" checked>
+                <span class="ai-profile-name">Level Architect</span>
+                <span class="ai-profile-description">Balanced pacing, readable jumps, and a complete playable route.</span>
+                <span class="ai-best-badge">BEST FOR LEVEL GENERATION</span>
+              </label>
+              <label class="ai-profile">
+                <input type="radio" name="ai-profile" value="visual">
+                <span class="ai-profile-name">Visual Designer</span>
+                <span class="ai-profile-description">Distinct palettes, decoration motifs, and a stronger visual theme.</span>
+              </label>
+              <label class="ai-profile">
+                <input type="radio" name="ai-profile" value="rhythm">
+                <span class="ai-profile-name">Rhythm Mapper</span>
+                <span class="ai-profile-description">Beat-led obstacle patterns, syncopation, and smooth transitions.</span>
+              </label>
+            </div>
+          </fieldset>
+          <label class="prompt-label ai-idea-label" for="ai-prompt">LEVEL IDEA</label>
+          <textarea id="ai-prompt" maxlength="600" placeholder="A neon night drive with tight, syncopated jumps…" required></textarea>
+          <div class="generate-actions"><span class="ai-note">Three prompt profiles · powered by Websim AI</span><button class="primary-button" id="generate-button" type="submit"><span>Generate level</span><span aria-hidden="true">↗</span></button></div>
+        </form>
+        <div class="generate-status" id="generate-status" aria-live="polite"></div>
+        <div class="generated-result" id="generated-result" hidden></div>
+      </section>
+    </main>
+
+    <footer class="footline"><span>GDShare <b>×</b> Geometry Dash</span><div class="footline-right"><span>FILE CONVERSION STAYS LOCAL</span><button class="credits-link" id="open-credits" type="button">CREDITS</button></div></footer>
+    <dialog class="credits-dialog" id="credits-dialog" aria-labelledby="credits-title">
+      <div class="credits-head"><h2 id="credits-title">Credits</h2><button class="credits-close" id="close-credits" type="button" aria-label="Close credits">×</button></div>
+      <dl class="credits-list">
+        <div><dt>Tool, interface &amp; level conversion</dt><dd id="creator-credit">Project creator</dd></div>
+        <div><dt>Geometry Dash &amp; original game art</dt><dd>RobTop Games</dd></div>
+        <div><dt>Pusab typeface</dt><dd>Ryoichi Tsunekawa · Flat-it</dd></div>
+        <div><dt>AI level generation</dt><dd>Websim AI</dd></div>
+      </dl>
+    </dialog>
+  </div>
+</body>
+</html>
